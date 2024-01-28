@@ -1,0 +1,8 @@
+{% for i in b1 %}
+<p>{{i.btitle}}</p>
+<form method="post">
+    {%csrf_token%}
+    <a href="{% url 'edit' i.id%}">edit</a>
+    <a href="{% url 'delete' i.id%}">delete</a>
+</form>
+{%endfor%}

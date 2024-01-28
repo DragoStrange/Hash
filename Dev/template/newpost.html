@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}New Post | {% endblock %}
+
+{% block content %}
+<section class="hero container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="write-post-container">
+            <h3 class="post-heading">Create Post</h3>
+            <br>
+            <div class="write-input-container">
+                <div class="user-profile">
+                    <img src="/{{ request.user.profile.image }}" onerror="this.src=`{% static 'images/dpplaceholder.png' %}` ;" alt="">
+                    <div class="post-profile">
+                        <p>{{ request.user.username }}</p>
+                    </div>
+                </div>
+                <div id="id_picture" class="image-preview" onclick="triggerFileInput();">
+                    <input type="file" name="picture" id="id_picture_input" class="image-input" style="display: none;" onchange="previewImage(this);">
+                </div>
+                <div class="post-input-container">
+                    <textarea id="id_caption" placeholder='Caption' rows ='2' name="caption" class="auto-resize" oninput="autoResize(this)"></textarea>
+                    <div class="addpost-links">
+                        <div class="tag-input">
+                            {{form.tag}}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class=" post-btn">
+                    <button class="hero__btn btn"  type="submit">Post Now</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+<script>
+    function autoResize(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
+    }
+    
+    function previewImage(input) {
+        var previewContainer = document.getElementById('id_picture');
+        var previewImage = previewContainer.querySelector('img');
+
+        // Remove existing image
+        var existingImage = previewContainer.querySelector('img');
+        if (existingImage) {
+            existingImage.remove();
+        }
+
+        // Create new image
+        var newImage = document.createElement('img');
+        newImage.src = URL.createObjectURL(input.files[0]);
+        newImage.classList.add('preview-image');
+        previewContainer.appendChild(newImage);
+    }
+
+    function triggerFileInput() {
+        document.getElementById('id_picture_input').click();
+    }
+</script>
+{% endblock %}
