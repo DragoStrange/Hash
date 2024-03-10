@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Sign In | {% endblock %}
+{% block title %}Edit Profile | {% endblock %}
 
 {% block content %}
 <section class="hero container">
@@ -19,7 +19,7 @@
               {% csrf_token %}
                 <h1 class="wh1">Edit Profile</h1>
                 <div class="hero container" id="imagePreview">
-                    <img class="hero__img" src="{% static 'images/dpplaceholder.png'%}" alt="Profile picture" />
+                    <img class="hero__img" src="{{ profile.image }}" onerror="this.src=`{% static 'images/dpplaceholder.png' %}` ;" alt="Profile picture" />
                     <br>
                 </div>
                 <label for="id_picture" class="post-image-icon">
@@ -29,7 +29,7 @@
                     </div>
                 </label>
                 <div class="input-box">
-                    {{ form.email }}
+                    <input type="text" name="email" placeholder="Email" value="{{profile.user.email}}" required>
                     <svg class="icnlog" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                         <path fill= var(--clr-light) d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0
                          33-23.5 56.5T800-160H160Zm320-280 320-200v-80L480-520 160-720v80l320 200Z"/>
@@ -44,7 +44,7 @@
                     </svg>
                 </div>
                 <div class="input-box">
-                    {{ form.username }}
+                    <input type="text" name="username" placeholder="Username" value="{{profile.user.username}}" required>
                    <svg class="icnlog" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                        <path fill= var(--clr-light) d="m240-160 40-160H120l20-80h160l40-160H180l20-80h160l40-160h80l-40 160h160l40-160h80l-40 
                        160h160l-20 80H660l-40 160h160l-20 80H600l-40 160h-80l40-160H360l-40 160h-80Zm140-240h160l40-160H420l-40 160Z"/>
@@ -56,7 +56,7 @@
                 <br>
                 <button type="submit" class="hero__btn btn">Submit</button>
                 <div class="register-link">
-                    <p>Revert Changes? <a href="#" onclick="history.go(-1)">Cancel</a></p>
+                    <p>Revert Changes? <a href="{% url 'my_profile' %}">Cancel</a></p>
                 </div>
             </form>
         </div>

@@ -15,7 +15,7 @@ const darkMode = () => {
         localStorage.setItem('theme', 'light-mode');
       } else {
         localStorage.removeItem('theme');
-        document.body.removeAttribute('class');
+        document.body.classList.remove('light-mode');
       }
     };
   

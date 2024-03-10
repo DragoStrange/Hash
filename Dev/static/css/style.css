@@ -2,12 +2,18 @@
   --clr-dark: #070a13;
   --clr-light: #f1f5f9;
   --clr-slate400: #94a3b8;
-  --clr-slate600: #475569;
+  --clr-slate600: #537CA2;
   --clr-slate800: #1e293b;
-  --clr-slate750: #475569;
-  --clr-slate850: #1e293b;
+  --clr-slate750: 	rgba(71,85,105,1);
+  --clr-slate850: rgba(48,65,95,0.2);
+  --clr-white: #f1f5f9;
+  --clr-black: #070a13;
+  --clr-grey: #94a3b8;
   --clr-rose: #e11d48;
   --clr-indigo: #4f46e5;
+  --clr-bg1: #121930;
+  --clr-bg2: #07204c;
+  --clr-glass: rgba(0, 0, 0, 0.2);
 
   /* rose rgb(225, 29, 72) */
   /* indigo rgb(79, 70, 229) */
@@ -45,9 +51,29 @@ html {
   --clr-slate400: #1e293b;
   --clr-slate600: #1e293b;
   --clr-slate800: #1e293b;
-  --clr-slate750: #e6ecf2;
-  --clr-slate850: #ffffff;
+  --clr-slate750: 	rgba(230,236,242,1);
+  --clr-slate850: rgba(255,255,255,0.2);
+  --clr-bg1: #EDF1F4;
+  --clr-bg2: #C4CCDD;
+  --clr-glass: rgba(255, 255, 255, 0.2);
+
+
 }
+
+.color-change-2x {
+	animation: color-change-2x 4s linear infinite alternate both;
+  padding-top: 72px;
+}
+
+@keyframes color-change-2x {
+    0% {
+      background: var(--clr-bg1);
+    }
+    100% {
+      background: var(--clr-bg2);
+    }
+  }
+
 
 body {
   font-family: 'General Sans', sans-serif;

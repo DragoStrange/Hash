@@ -25,19 +25,21 @@ SECRET_KEY = 'django-insecure-9u&j@%xp(i&%+kf&pfyz^+howb*!ij1nm*l7l78o1t_ak899v^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Social'
+    'Social',
+    'chat'
 ]
 
 MIDDLEWARE = [
@@ -69,6 +71,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Dev.wsgi.application'
+ASGI_APPLICATION = 'Dev.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default' : {
+        'BACKEND' : 'channels.layers.InMemoryChannelLayer',
+        # 'CONFIG' : {
+        #     'hosts' : [('127.0.0.1', 6379)],
+        #     }
+    }
+}
 
 
 # Database
@@ -127,3 +139,11 @@ MEDIA_ROOT = BASE_DIR/'images'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#SMIP Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'codingonly64@gmail.com'
+EMAIL_HOST_PASSWORD = 'huiqbmeajyxhekqn'

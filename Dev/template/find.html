@@ -28,12 +28,14 @@
     {% if tagresults %}
       <div class="tag-grid">
         {% for i in tagresults %}
+        <a href="{{i.get_absolute_url}}" style="text-decoration: none;">
           <div class="tag-card">
               <div class="tag-backdrop"></div>
               <div class="tag-info">
                 <div class="tag-name">#{{ i.title }}</div>
               </div>
           </div>
+        </a>
         {% endfor %}
       </div>
     {% endif %}

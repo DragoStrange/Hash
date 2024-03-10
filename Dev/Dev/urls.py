@@ -23,7 +23,8 @@ from Social.models import Profile
 from Social.views import profile, follow
 
 urlpatterns = [
-    path('admin', admin.site.urls),
+    path('admin/', admin.site.urls),
+    path('chat/',include('chat.urls')),
     path('',include('Social.urls')),
     
 

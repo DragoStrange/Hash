@@ -40,6 +40,47 @@ class ReplyForm(forms.ModelForm):
         model=Reply
         fields='__all__'
 
+class CreateProfileForm(forms.ModelForm):
+    full_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder' : 'Full Name'}), required=False)
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'input', 'placeholder': 'Username'}), required=True)
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'input', 'placeholder': 'Email'}), required=True)
+
+    class Meta:
+        model = Profile
+        fields = ['image', 'full_name', 'bio']
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+        if image:
+            from PIL import Image
+            try:
+                img = Image.open(image)
+            except (IOError, ValueError):
+                raise forms.ValidationError('Invalid image file.')
+
+        return image
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Populate the fields with initial values if instance is provided
+        if 'instance' in kwargs:
+            self.fields['username'].initial = kwargs['instance'].user.username
+            self.fields['email'].initial = kwargs['instance'].user.email
+
+    def save(self, commit=True):
+        user = User.objects.create(
+            username=self.cleaned_data['username'],
+            email=self.cleaned_data['email']
+        )
+
+        profile = super().save(commit=False)
+        profile.user = user
+
+        if commit:
+            profile.save()
+
+        return profile
+
 class EditProfileForm(forms.ModelForm):
     full_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder' : 'Full Name'}), required=False)
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'input', 'placeholder': 'Username'}), required=True)
@@ -79,3 +120,7 @@ class EditProfileForm(forms.ModelForm):
             profile.save()
 
         return profile
+
+import time
+
+time.ctime()

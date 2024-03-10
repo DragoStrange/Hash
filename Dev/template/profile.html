@@ -16,28 +16,33 @@
   <h2 class="hero__subtitle">@{{ profile.user.username }}</h2>
   <!-- <a class="hero__btn btn" href="{%url 'signup'%}">Join Now</a> -->
   <div class="follow__count">
-    <div class="posts__count">
-      <h3 class="">Posts</h3>
-      {{post_count}}
-    </div>
+    <a style="text-decoration: none; color: var(--clr-light);" href="{% url 'profilee' profile.user %}">
+      <div class="posts__count">
+        <h3 class="">Posts</h3>
+        {{post_count}}
+      </div>
+    </a>
     <div class="tweets__count">
-      <h3 class="">Tweets</h3>
-      {{post_count}}
+      <h3 class="">Thoughts</h3>
+      {{tweet_count}}
     </div>
     <div class="followers__count">
       <h3 class="">Followers</h3>
-      {{follower_count}}
+      {{follower_count|add:"-1"}}
       <!-- {% for i in profile.following.all %}
         <p>{{i}}</p>
-      {% endfor %}   -->
+        {% endfor %}   -->
     </div>
     <div class="following__count">
       <h3 class="">Following</h3>
-      {{following_count}}
-      <!-- {% for i in profile.follower.all %}
-        <p>{{i}}</p>
-      {% endfor %} -->
+      {{following_count|add:"-1"}}
     </div>
+    <a style="text-decoration: none; color: var(--clr-light);" href="{% url 'savedd' profile.user %}">
+      <div class="saved__count">
+        <h3 class="">Saved</h3>
+        {{ profile.saved.count }}
+      </div>
+    </a>
   </div>
   {% if profile.user == request.user %}
     <a class="btn"  href="{% url 'editprofile' %}">Edit Profile</a>
@@ -54,7 +59,7 @@
       </div>
     {% endif %}
     <div>
-      <a class="btn"  href="#">Contact Me</a>
+      <a class="btn"  href="{% url 'link' profile.user.id %}">Message</a>
     </div>
   </div>
 {% endif %}
@@ -62,10 +67,10 @@
       <!-- <strong><b>Bio</b></strong><br> -->
       {{ profile.bio }}
     </p>
-    <div class="profile-links">
+    <!-- <div class="profile-links">
       <a href="{% url 'profilee' profile.user %}" class="{% if url_name == 'profilee' %}active-link{% endif %}">Posts</a>
       <a href="{% url 'savedd' profile.user %}" class="{% if url_name == 'savedd' %}active-link{% endif %}">Saved</a>
-    </div>
+    </div> -->
     <div class="featured__img-container">
       {% for post in posts %}
         <div class="">
@@ -79,6 +84,8 @@
         </div>
       {% endfor %}
     </div>
+    <br>
+    <br>
     </section>
     <!-- <script>
       let heroimg = document.getElementById("heroimg")

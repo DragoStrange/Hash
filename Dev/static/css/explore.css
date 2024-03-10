@@ -30,6 +30,8 @@
     border-radius: 50%;
     margin-right: 20px;
     margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .profile-info {
@@ -103,7 +105,7 @@
 .tag-name {
     font-size: var(--size-3xl);
     font-weight: bold;
-    color: #333;
+    color: var(--clr-dark);
     font-family: Righteous, Regular;
 }
 
@@ -117,3 +119,32 @@
     -webkit-line-clamp: 3; /* Number of lines to show */
     -webkit-box-orient: vertical;
 }
+
+
+/* xs */
+@media (max-width: 475px) {
+    .profile-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .tag-grid {
+        grid-template-columns: repeat(1, 1fr);
+        padding: 35px;
+        margin-top: 0px;
+    }
+}
+
+/* sm */
+/* @media (min-width: 640px) {} */
+
+/* md */
+/* @media (min-width: 768px) {} */
+
+/* lg */
+/* @media (min-width: 1024px) {} */
+
+/* xl */
+/* @media (min-width: 1280px) {} */
+
+/* 2xl */
+/* @media (min-width: 1536px) {} */

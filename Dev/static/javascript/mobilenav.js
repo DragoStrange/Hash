@@ -12,6 +12,7 @@ const mobileNav = () => {
       if (isMobileNavOpen) {
         mobileNav.style.display = 'flex';
         document.body.style.overflowY = 'hidden';
+        document.body.style.overflowX = 'hidden';
       } else {
         mobileNav.style.display = 'none';
         document.body.style.overflowY = 'auto';

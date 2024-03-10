@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
+from django.utils import timezone
 from django.dispatch import receiver
 from django.utils.text import slugify
 from django.urls import reverse
@@ -90,6 +91,9 @@ class Follow(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower')
     following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
 
+    def __str__(self):
+        return f'{str(self.follower)} ~~~ Follows ~~~ {self.following}'
+
 class Stream(models.Model):
     following = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='stream_following')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -116,7 +120,9 @@ class Profile(models.Model):
     created = models.DateField(auto_now_add=True)
     image = models.ImageField(upload_to=user_directory_path, blank=True, null=True ,verbose_name='Picture')
     saved = models.ManyToManyField(Post ,blank=True)
-
+    following=models.ManyToManyField("self",related_name="followers",symmetrical=False)
+    status = models.BooleanField(default=False)
+    
     def __str__(self):
         return str(self.user)
     
@@ -157,6 +163,7 @@ class Comment(models.Model):
 class Tweet(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     tweet=models.CharField(max_length=400)
+    likes = models.ManyToManyField(User, related_name='tweet_like' , blank=True)
     created=models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now=True)
     
@@ -172,3 +179,34 @@ class Reply(models.Model):
     
     def __str__(self):
         return f'[{str(self.user)}] @ {str(self.tweet)}   ~~~ " {self.reply} "'
+    
+
+class Notification(models.Model):
+    sender=models.ForeignKey(User,on_delete=models.CASCADE,related_name="sender")
+    receiver=models.ForeignKey(User,on_delete=models.CASCADE,related_name="receiver")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True,related_name="post")
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True,related_name="comment")
+    body=models.CharField(max_length=100)
+    created=models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f'{self.sender} {self.body} {self.receiver}'
+    
+class ScreenTime(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    login_time = models.DateTimeField(blank=True, null=True)
+    logout_time = models.DateTimeField(blank=True, null=True)
+    time_spent_seconds = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.user)
+
+    def update_time_spent(self):
+        if self.login_time and self.logout_time:
+            time_difference = self.logout_time - self.login_time
+            seconds_spent = time_difference.total_seconds()
+            # Update the total time spent in seconds
+            self.time_spent_seconds += int(seconds_spent)
+        self.save()
+        
+

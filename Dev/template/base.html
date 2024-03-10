@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
     <link rel="stylesheet" href="{% static 'css/explore.css'%}">
     <link rel="stylesheet" href="{% static 'css/components/header.css'%}">
+    <link rel="stylesheet" href="{% static 'css/components/notifications.css'%}">
     <link rel="stylesheet" href="{% static 'css/components/hero.css'%}">
     <link rel="stylesheet" href="{% static 'css/components/about.css'%}">
     <link rel="stylesheet" href="{% static 'css/components/featured.css'%}">
@@ -25,6 +26,7 @@
     <link rel="stylesheet" href="{% static 'css/components/mobile-nav.css'%}">
     <link rel="stylesheet" href="{% static 'css/components/editprofile.css'%}">
     <link rel="stylesheet" href="{% static 'css/utils.css'%}">
+    <link rel="stylesheet" href="{% static 'css/chat.css'%}">
     <link rel="stylesheet" href="{% static 'css/profile1.css'%}">
     <link rel="stylesheet" href="{%static 'css/footernew.css'%}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
@@ -34,8 +36,10 @@
     <meta name="keywords" content="web design, html, css, js" />
     <title>{% block title %}{% endblock %}Home</title>
   </head>
-  <body>
-    {% include 'header.html' %}
+  <body class="color-change-2x">
+    <div class="top-section">
+      {% include 'header.html' %}
+    </div>
     <main>
       {% block content %}
       {% endblock %}
@@ -46,5 +50,22 @@
     <script  src="{% static 'javascript/lazyloading.js' %}"></script>
     <script  src="{% static 'javascript/mobilenav.js' %}"></script>
     <script  src="{% static 'javascript/menu.js' %}"></script>
+    <script>
+      // Enable hidden nav bar
+      {
+        const nav = document.querySelector(".top-section");
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener("scroll", () => {
+          if (lastScrollY < window.scrollY) {
+            nav.classList.add("nav--hidden");
+          } else {
+            nav.classList.remove("nav--hidden");
+          }
+
+          lastScrollY = window.scrollY;
+        });
+      }
+    </script>
   </body>
 </html>
